@@ -1,16 +1,23 @@
 # Patch UVC RealSense camera format changes
 # Mark the UVC Video driver to build as a module
 # Patch the UVC Video Driver with the RealSense Camera Formats
+if [ -z "$1" ]
+  then
+    DIR="/usr/src"
+else
+  DIR=$1
+fi
+
 echo ""
 echo "This script will patch the UVC Video driver."
 echo "The script expects that the kernel sources have been downloaded and built beforehand."
-echo "The script expects the kernel sources to be in /usr/src/kernel"
+echo "The script expects the kernel sources to be in $DIR/kernel"
 echo ""
 echo "The script patches the UVC Driver with the RealSense Camera formats,"
 echo "modifies the kernel .config file, and then compiles the kernel and modules"
 echo "Once finished, the script copies the kernel image to the boot directory."
 echo "Use caution, as this script *WILL* replace your current kernel with whatever is in"
-echo "/usr/src/kernel"
+echo "$DIR/kernel"
 echo ""
 read -p "Patch UVCVideo Driver, Recompile Kernel and Install? (Y/n) " RESP
 if [ "$RESP" = "Y" ]; then
@@ -20,7 +27,7 @@ else
   exit 1
 fi
 # Start patch process
-cd /usr/src/kernel
+cd $DIR/kernel
 # Make sure that there's a config file
 file=".config"
 if [ -f "$file" ]
